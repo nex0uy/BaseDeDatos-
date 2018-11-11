@@ -108,6 +108,7 @@ public class Login2 extends javax.swing.JFrame {
                 Inicio2 ventana = new Inicio2();
                 
                 this.setVisible(false);
+                ventana.actualizarGrillaGastos(user);
                 ventana.traerAnfitrion(user);
                 ventana.setVisible(true);
                 

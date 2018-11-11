@@ -5,15 +5,10 @@
  */
 package bddatos;
 
-import java.awt.List;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -29,7 +24,7 @@ public class Inicio2 extends javax.swing.JFrame {
      */
     public Inicio2() {
         initComponents();
-        actualizarGrilla();
+        actualizarGrillaEventos();
     }
     
     public void traerAnfitrion(Usuario user){
@@ -53,6 +48,10 @@ public class Inicio2 extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        txt_total = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -129,40 +128,73 @@ public class Inicio2 extends javax.swing.JFrame {
 
         jTabbedPane2.addTab("Eventos", jPanel1);
 
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable2);
+
+        txt_total.setBackground(new java.awt.Color(187, 187, 187));
+
+        jLabel1.setText("Total $U");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 612, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txt_total, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 556, Short.MAX_VALUE))
+                .addGap(50, 50, 50))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 266, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txt_total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
-        jTabbedPane2.addTab("tab2", jPanel2);
+        jTabbedPane2.addTab("Gastos", jPanel2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(52, 52, 52)
-                .addComponent(jTabbedPane2)
-                .addGap(44, 44, 44))
+                .addContainerGap()
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(36, 36, 36)
                 .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(185, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public void actualizarGrilla(){
+    public void actualizarGrillaEventos(){
         bd_conn connection = new bd_conn();
         DefaultTableModel tb_events = new DefaultTableModel();
         ArrayList<Evento> data = new ArrayList<> ();
@@ -215,12 +247,70 @@ public class Inicio2 extends javax.swing.JFrame {
         jTable1.setModel(tb_events);   
     }
     
+    
+    public void actualizarGrillaGastos(Usuario userLog){
+        bd_conn connection = new bd_conn();
+        DefaultTableModel gastos = new DefaultTableModel();
+        ArrayList<Gasto> data = new ArrayList<> ();
+        int total = 0;
+        String nombreEvento = "";
+        
+        try {
+            connection.Sqlconectar();
+            Statement cost = connection.getConexion().createStatement();
+            ResultSet dataQuery = cost.executeQuery("SELECT * FROM gasto WHERE id_usuario ="+ 
+                                                      userLog.getId() +"ORDER BY fecha_gasto");
+            while (dataQuery.next()){      
+                    
+                    Statement usr = connection.getConexion().createStatement();
+                    ResultSet user = usr.executeQuery("SELECT nombre FROM usuario WHERE id_usuario = " +userLog.getId());
+                    user.next();
+                    Gasto temp = new Gasto(dataQuery.getInt("id_evento"),
+                                           dataQuery.getInt("id_usuario"),
+                                           user.getString("nombre"),
+                                           dataQuery.getInt("gasto"),
+                                           dataQuery.getDate("fecha_gasto")   
+                    );
+                    total += temp.getTotal();
+                    data.add(temp);
+            }
+            
+            Statement event = connection.getConexion().createStatement();
+            ResultSet dataQueryEvt = event.executeQuery("SELECT nombre FROM evento WHERE id_evento = "+ dataQuery.getInt("id_evento"));
+            while (dataQueryEvt.next()){  
+                nombreEvento = dataQueryEvt.getString("nombre");      
+            }
+            
+            connection.getConexion().close();
+        } catch (SQLException ex){
+            System.out.println("Exc");
+        }
+        
+        gastos.addColumn("Nombre");
+        gastos.addColumn("Fecha");
+        gastos.addColumn("Usuario");
+        gastos.addColumn("Total");       
+        
+        for(Gasto gasto : data){
+            
+            Object[] row = new Object[4];
+            row[0] = nombreEvento;
+            row[1] = gasto.getFecha();
+            row[2] = gasto.getNombreUsr();
+            row[3] = gasto.getTotal();
+            gastos.addRow(row); 
+        }
+        
+        txt_total.setText(String.valueOf(total));
+        jTable2.setModel(gastos); 
+    }
+    
     private void jPanel1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jPanel1FocusGained
         
     }//GEN-LAST:event_jPanel1FocusGained
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        actualizarGrilla();
+        actualizarGrillaEventos();
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -239,6 +329,7 @@ public class Inicio2 extends javax.swing.JFrame {
         
         DetalleEvento form = new DetalleEvento();
         form.cargaDeDatos(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+        form.pasarDatos(Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString()), anfitrion);
         form.setVisible(true); 
     }//GEN-LAST:event_jTable1MouseClicked
 
@@ -281,11 +372,15 @@ public class Inicio2 extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JTextField txt_total;
     // End of variables declaration//GEN-END:variables
 }
