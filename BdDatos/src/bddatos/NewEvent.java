@@ -41,6 +41,7 @@ public class NewEvent extends javax.swing.JFrame {
     private void initComponents() {
 
         jToggleButton1 = new javax.swing.JToggleButton();
+        jCalendar1 = new com.toedter.calendar.JCalendar();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -50,8 +51,8 @@ public class NewEvent extends javax.swing.JFrame {
         txt_evtNotas = new javax.swing.JTextField();
         txt_evtLugar = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        dt_evento = new com.toedter.calendar.JDateChooser();
         ftxt_hora = new javax.swing.JFormattedTextField();
+        dt_evento = new com.toedter.calendar.JDateChooser();
 
         jToggleButton1.setText("jToggleButton1");
 
@@ -141,7 +142,7 @@ public class NewEvent extends javax.swing.JFrame {
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(9, Short.MAX_VALUE))
         );
 
         pack();
@@ -233,6 +234,7 @@ public class NewEvent extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser dt_evento;
     private javax.swing.JFormattedTextField ftxt_hora;
     private javax.swing.JButton jButton1;
+    private com.toedter.calendar.JCalendar jCalendar1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
