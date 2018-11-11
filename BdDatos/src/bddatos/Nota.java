@@ -11,4 +11,10 @@ package bddatos;
  */
 public class Nota {
     
+    private String content;
+    
+    public Nota(String content){
+        this.content = content;
+    }
+    
 }

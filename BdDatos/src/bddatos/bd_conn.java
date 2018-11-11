@@ -23,9 +23,10 @@ public class bd_conn {
     public void Sqlconectar() throws SQLException{
         
             String urlDatabase =  "jdbc:postgresql://192.168.56.101:5433/BD1"; 
-            
+            //String urlDatabase = "jdbc:postgresql://localhost/postgres";
             try {
                 Class.forName("org.postgresql.Driver");
+                //conexion = DriverManager.getConnection(urlDatabase, "postgres", "G3j02606");
                 conexion = DriverManager.getConnection(urlDatabase, "postgres", "basededatos");
                 System.out.println("La conexión se realizo sin problemas!");
             } catch (Exception e) {

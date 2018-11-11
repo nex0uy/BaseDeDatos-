@@ -104,7 +104,7 @@ public class Login2 extends javax.swing.JFrame {
             //System.out.println("select * from usuario where usuario='"+txt_usuario.getText()+"' and pass='"+txt_pw.getText()+"';");
             if(rs.next()){
                 Usuario user = new Usuario(rs.getInt("id_usuario"),rs.getString("usuario"),rs.getString("nombre"),rs.getString("apellido"),rs.getString("correo"),rs.getString("pass"));
-                //System.out.println(user.getNombre());
+                System.out.println(user.getNombre());
                 Inicio2 ventana = new Inicio2();
                 
                 this.setVisible(false);
@@ -112,9 +112,7 @@ public class Login2 extends javax.swing.JFrame {
                 ventana.setVisible(true);
                 
         } else {
-            Mensaje ventana2 = new Mensaje();
-            ventana2.insertarMensaje("El usuario y/o contraseña es incorrecto!");
-            ventana2.setVisible(true);
+            System.out.print("error!");
             }
         } catch (SQLException ex) {
             Logger.getLogger(Login2.class.getName()).log(Level.SEVERE, null, ex);

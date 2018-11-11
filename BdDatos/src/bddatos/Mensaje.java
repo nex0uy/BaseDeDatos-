@@ -45,7 +45,7 @@ public class Mensaje extends javax.swing.JFrame {
         getContentPane().add(btn_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, 119, 59));
 
         jlabel_mensaje.setFont(new java.awt.Font("Noto Mono", 1, 18)); // NOI18N
-        getContentPane().add(jlabel_mensaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 530, 70));
+        getContentPane().add(jlabel_mensaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 540, 70));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/thumb-1920-594600.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
